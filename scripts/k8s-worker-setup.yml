@@ -112,11 +112,11 @@
 
     - name: Copy file.txt to the root user's home directory
       copy:
-        src: file.txt  # Path to file.txt on the Ansible controller
-        dest: "/root/file.txt"  # Destination path in the root user's home directory
-        owner: root  # Set the owner of the copied file to root
-        group: root  # Set the group of the copied file to root
-        mode: "0644"  # Set the permissions of the copied file to 0644
+        src: file.txt  
+        dest: "/root/file.txt" 
+        owner: root  
+        group: root  
+        mode: "0644"
       
     - name: Execute command from file.txt
       shell: "bash /root/file.txt"
