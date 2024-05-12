@@ -1,0 +1,23 @@
+---
+- name: deploy service and deployment files
+  hosts: all
+  become: true
+  tasks:
+    - name: Copy deployment YAML file to root user's home directory on remote machine
+      copy:
+        src:  deployment.yml
+        dest: /root/deployment.yml
+
+    - name: Copy service YAML file to root user's home directory on remote machine
+      copy:
+        src:  service.yml
+        dest: /root/service.yml
+
+    - name: Apply deployment YAML with kubectl
+      command: kubectl apply -f /root/deployment.yml
+
+    - name: Wait for nodeexporter pod to be ready
+      shell: sleep 2m  
+
+    - name: Apply service YAML with kubectl
+      command: kubectl apply -f /root/service.yml

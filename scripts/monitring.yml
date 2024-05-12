@@ -1,0 +1,52 @@
+- name: Install dependencies and setup Grafana
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - apt-transport-https
+        - software-properties-common
+        - wget
+
+    - name: Create directory for Grafana keyrings
+      file:
+        path: /etc/apt/keyrings/
+        state: directory
+
+    - name: Add Grafana GPG key
+      shell: wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/grafana.gpg > /dev/null
+
+    - name: Add Grafana repository
+      shell: echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+
+    - name: Update package list
+      apt:
+        update_cache: yes
+
+    - name: Install Grafana
+      apt:
+        name: grafana
+        state: present
+
+    - name: Start Grafana service
+      service:
+        name: grafana-server
+        state: started
+
+- name: Install Prometheus
+  hosts: all
+  become: yes
+  tasks:
+    - name: Download Prometheus tarball
+      get_url:
+        url: https://github.com/prometheus/prometheus/releases/download/v2.51.2/prometheus-2.51.2.linux-amd64.tar.gz
+        dest: /tmp/prometheus-2.51.2.linux-amd64.tar.gz
+
+    - name: Extract Prometheus tarball
+      unarchive:
+        src: /tmp/prometheus-2.51.2.linux-amd64.tar.gz
+        dest: /opt/
+        remote_src: yes

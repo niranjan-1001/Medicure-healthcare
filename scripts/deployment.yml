@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: health-care-deploy
+  labels:
+    app: health-care-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: health-care-app
+  template:
+    metadata:
+      labels:
+        app: health-care-app
+    spec:
+      containers:
+        - name: health-care-container
+          image: niranjan1001/banking:1.0
+          ports:
+            - containerPort: 8081

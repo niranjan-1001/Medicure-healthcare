@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: health-care-np-service
+  labels:
+    app: health-care-app
+spec:
+  selector:
+    app: health-care-app
+  type: NodePort
+  ports:
+    - nodePort: 31032
+      port: 8081
+      targetPort: 8081

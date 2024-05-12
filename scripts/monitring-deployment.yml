@@ -1,0 +1,26 @@
+---
+- name: Execute kubectl commands and Docker run
+  hosts: all
+  tasks:
+    - name: Run nodeexporter container using kubectl
+      shell: kubectl create deployment nodeexporter --image=prom/node-exporter:latest
+    
+    - name: Run cadvisor container using kubectl
+      shell: kubectl create deployment cadvisor --image=gcr.io/cadvisor/cadvisor:latest
+
+    - name: Wait for nodeexporter pod to be ready
+      shell: sleep 2m
+
+    - name: Get nodeexporter pod name
+      shell: kubectl get pods -l app=nodeexporter -o jsonpath='{.items[0].metadata.name}'
+      register: nodeexporter_pod_name
+      
+    - name: Expose nodeexporter pod
+      shell: kubectl expose pod {{ nodeexporter_pod_name.stdout }} --type=NodePort --port=9100 --target-port=9100
+
+    - name: Get cadvisor pod name
+      shell: kubectl get pods -l app=cadvisor -o jsonpath='{.items[0].metadata.name}'
+      register: cadvisor_pod_name
+
+    - name: Expose cadvisor pod
+      shell: kubectl expose pod {{ cadvisor_pod_name.stdout }} --type=NodePort --port=8080 --target-port=8080
