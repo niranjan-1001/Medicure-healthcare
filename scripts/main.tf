@@ -107,7 +107,7 @@ resource "aws_instance" "kubernetes_master" {
         command = " echo ${aws_instance.kubernetes_master.public_ip} > inventory "
   }
    provisioner "local-exec" {
-  	command = "ansible-playbook /var/lib/jenkins/workspace/Banking/scripts/k8s-master-setup.yml"
+  	command = "ansible-playbook /var/lib/jenkins/workspace/Healthcare/scripts/k8s-master-setup.yml"
   }
   
 }
@@ -135,7 +135,7 @@ resource "aws_instance" "kubernetes_worker_1" {
         command = " echo ${aws_instance.kubernetes_worker_1.public_ip} > inventory "
   }
    provisioner "local-exec" {
-       command = "ansible-playbook /var/lib/jenkins/workspace/Banking/scripts/k8s-worker-setup.yml "
+       command = "ansible-playbook /var/lib/jenkins/workspace/Healthcare/scripts/k8s-worker-setup.yml "
   }
   depends_on = [aws_instance.kubernetes_master]
 }
@@ -163,7 +163,7 @@ resource "aws_instance" "kubernetes_worker_2" {
         command = " echo ${aws_instance.kubernetes_worker_2.public_ip} > inventory "
   }
    provisioner "local-exec" {
-       command = "ansible-playbook /var/lib/jenkins/workspace/Banking/scripts/k8s-worker-setup.yml "
+       command = "ansible-playbook /var/lib/jenkins/workspace/Healthcare/scripts/k8s-worker-setup.yml "
   }
   depends_on = [aws_instance.kubernetes_worker_1]
 }
@@ -175,11 +175,11 @@ resource "null_resource" "local_command" {
   }
    
    provisioner "local-exec" {
-    command = "ansible-playbook /var/lib/jenkins/workspace/Banking/scripts/monitoring-deployment.yml"
+    command = "ansible-playbook /var/lib/jenkins/workspace/Healthcare/scripts/monitoring-deployment.yml"
   }
 
    provisioner "local-exec" {
-    command = "ansible-playbook /var/lib/jenkins/workspace/Banking/scripts/deployservice.yml"
+    command = "ansible-playbook /var/lib/jenkins/workspace/Healthcare/scripts/deployservice.yml"
   }
   depends_on = [aws_instance.kubernetes_worker_2]
 
@@ -208,7 +208,7 @@ resource "aws_instance" "monitoring_server" {
         command = " echo ${aws_instance.monitoring_server.public_ip} > inventory "
   }
    provisioner "local-exec" {
-  command = "ansible-playbook /var/lib/jenkins/workspace/Banking/scripts/monitoring.yml "
+  command = "ansible-playbook /var/lib/jenkins/workspace/Healthcare/scripts/monitoring.yml "
   }
 depends_on = [null_resource.local_command]
   
