@@ -175,7 +175,7 @@ resource "null_resource" "local_command" {
   }
    
    provisioner "local-exec" {
-    command = "ansible-playbook /var/lib/jenkins/workspace/Healthcare/scripts/monitoring-deployment.yml"
+    command = "ansible-playbook /var/lib/jenkins/workspace/Healthcare/scripts/monitring-deployment.yml"
   }
 
    provisioner "local-exec" {
