@@ -25,6 +25,12 @@ pipeline {
                 sh 'docker build -t niranjan1001/healthcare:1.0 .'
             }
         }
+
+         stage('Publish the HTML Reports') {
+      steps {
+          publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Banking/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                        }
+            } 
         
         stage('Login to Docker Hub') {
             steps {
