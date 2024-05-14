@@ -185,6 +185,41 @@ resource "null_resource" "local_command" {
 
 }
 
+resource "null_resource" "local_command" {
+  
+   provisioner "local-exec" {
+        command = " echo ${aws_instance.kubernetes_worker_1.public_ip} > inventory "
+  }
+   
+   provisioner "local-exec" {
+    command = "ansible-playbook /var/lib/jenkins/workspace/Healthcare/scripts/monitring-deployment.yml"
+  }
+
+   provisioner "local-exec" {
+    command = "ansible-playbook /var/lib/jenkins/workspace/Healthcare/scripts/deployservice.yml"
+  }
+  depends_on = [null_resource.local_command]
+
+}
+
+resource "null_resource" "local_command" {
+  
+   provisioner "local-exec" {
+        command = " echo ${aws_instance.kubernetes_worker_2.public_ip} > inventory "
+  }
+   
+   provisioner "local-exec" {
+    command = "ansible-playbook /var/lib/jenkins/workspace/Healthcare/scripts/monitring-deployment.yml"
+  }
+
+   provisioner "local-exec" {
+    command = "ansible-playbook /var/lib/jenkins/workspace/Healthcare/scripts/deployservice.yml"
+  }
+  depends_on = [null_resource.local_command]
+
+}
+
+
 resource "aws_instance" "monitoring_server" {
   ami             = "ami-04b70fa74e45c3917"
   instance_type   = "t2.micro"
