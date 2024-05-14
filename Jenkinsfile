@@ -22,7 +22,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo 'Building the Docker image...'
-                sh 'docker build -t ravishankar119/healthcare:1.0 .'
+                sh 'docker build -t niranjan1001/healthcare:1.0 .'
             }
         }
         
@@ -38,7 +38,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 echo 'Pushing the Docker image to Docker Hub...'
-                sh 'docker push ravishankar119/healthcare:1.0'
+                sh 'docker push niranjan1001/healthcare:1.0'
             }
         }
         
