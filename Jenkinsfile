@@ -8,7 +8,7 @@ pipeline {
         stage('Checkout Git Repository') {
             steps {
                 echo 'Checking out the Git repository...'
-                git branch: 'master', url: 'https://github.com/Ravi4090/Medicure-healthcare.git'
+                git branch: 'master', url: 'https://github.com/niranjan-1001/Medicure-healthcare.git'
             }
         }
         
