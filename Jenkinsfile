@@ -26,12 +26,6 @@ pipeline {
             }
         }
 
-         stage('Publish the HTML Reports') {
-      steps {
-          publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Healthcare/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-                        }
-            } 
-        
         stage('Login to Docker Hub') {
             steps {
                 echo 'Logging in to Docker Hub...'
