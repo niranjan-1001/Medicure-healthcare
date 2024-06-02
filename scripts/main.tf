@@ -212,6 +212,4 @@ resource "aws_instance" "monitoring_server" {
   }
 depends_on = [null_resource.local_command]
   
- 
-  
 }
